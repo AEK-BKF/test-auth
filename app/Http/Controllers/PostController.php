@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Post;
+use App\Models\Post;
 use Illuminate\Http\Request;
 
 class PostController extends Controller
@@ -13,8 +13,10 @@ class PostController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {
-        //
+    {       
+        return view('post.index',[
+            'posts' => auth()->user()->posts
+        ]);
     }
 
     /**
@@ -24,7 +26,7 @@ class PostController extends Controller
      */
     public function create()
     {
-        //
+        return view('post.create');
     }
 
     /**
@@ -35,7 +37,16 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'title' => ['string', 'min:3'],
+            'content' => ['string', 'min:10']
+        ]);
+
+        auth()->user()->posts()->create([
+            'title' => $request->title,
+            'content' => $request->content,                    
+        ]);
+        return redirect('/posts/index');
     }
 
     /**

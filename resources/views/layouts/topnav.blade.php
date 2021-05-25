@@ -99,7 +99,7 @@
                          <div class="dropdown-header noti-title">
                              <h6 class="text-overflow m-0">Welcome!</h6>
                          </div>
-                         <a href="#!" class="dropdown-item">
+                         <a href="{{ route('user.profile') }}" class="dropdown-item">
                              <i class="ni ni-single-02"></i>
                              <span>My profile</span>
                          </a>
@@ -118,7 +118,7 @@
                          <div class="dropdown-divider"></div>
                          <a href="#!" class="dropdown-item">
                              <i class="ni ni-user-run"></i>
-                             <span>Logout</span>
+                             <span onclick="logout()">Logout</span>
                          </a>
                      </div>
                  </li>
@@ -126,3 +126,12 @@
          </div>
      </div>
  </nav>
+ <form action="{{ route('logout') }}" method="POST" id="logout">
+     @csrf
+ </form>
+ <script>
+     function logout() {
+         document.getElementById('logout').submit();
+     }
+
+ </script>

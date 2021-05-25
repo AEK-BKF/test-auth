@@ -53,9 +53,9 @@
         </div>
         <!-- Page content -->
         <div class="container-fluid mt-6">
-            <div class="row">
-                @yield('content')
-            </div>
+
+            @yield('content')
+
             <!-- Footer -->
             <footer class="footer pt-0">
                 <div class="row align-items-center justify-content-lg-between">

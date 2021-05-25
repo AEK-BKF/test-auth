@@ -12,17 +12,26 @@
                   <!-- Nav items -->
                   <ul class="navbar-nav">
                       <li class="nav-item">
-                          <a class="nav-link active" href="examples/dashboard.html">
+                          <a class="nav-link active" href="{{ url('home') }}">
                               <i class="ni ni-tv-2 text-primary"></i>
                               <span class="nav-link-text">Dashboard !!</span>
                           </a>
                       </li>
                       <li class="nav-item">
-                          <a class="nav-link" href="examples/icons.html">
+                          <a class="nav-link" href="{{ route('posts.index') }}">
                               <i class="ni ni-planet text-orange"></i>
-                              <span class="nav-link-text">Icons</span>
+                              <span class="nav-link-text">My Posts</span>
                           </a>
+                          <ul>
+                              <li class="nav-item">
+                                  <a class="nav-link" href="{{ route('posts.create') }}">
+                                      <i class="ni ni-planet text-orange"></i>
+                                      <span class="nav-link-text">Add Post</span>
+                                  </a>
+                              </li>
+                          </ul>
                       </li>
+
                       <li class="nav-item">
                           <a class="nav-link" href="examples/map.html">
                               <i class="ni ni-pin-3 text-primary"></i>
