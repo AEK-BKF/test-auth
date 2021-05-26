@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Post;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class PostController extends Controller
 {
@@ -37,6 +38,7 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
+       
         $request->validate([
             'title' => ['string', 'min:3'],
             'content' => ['string', 'min:10']
@@ -55,9 +57,14 @@ class PostController extends Controller
      * @param  \App\Post  $post
      * @return \Illuminate\Http\Response
      */
-    public function show(Post $post)
+    public function show($id)
     {
-        //
+        $post = Post::find($id);
+        return response()->json([
+            'id' => $post->id,
+            'title' => $post->title,
+            'content' => $post->content,            
+        ]);
     }
 
     /**
@@ -78,9 +85,16 @@ class PostController extends Controller
      * @param  \App\Post  $post
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Post $post)
+    public function update(Request $request, $id)
     {
-        //
+        $post = Post::find($request->id);
+        $post->update([
+            'title' => $request->title,
+            'content' => $request->content,
+        ]);
+
+        return redirect('/posts/index');
+        
     }
 
     /**
@@ -89,8 +103,9 @@ class PostController extends Controller
      * @param  \App\Post  $post
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Post $post)
-    {
-        //
+    public function destroy(Request $request)
+    {               
+        Post::find($request->id)->delete();
+        return redirect('/posts/index');
     }
 }
