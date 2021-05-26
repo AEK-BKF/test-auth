@@ -18,8 +18,11 @@
             @forelse($posts as $post)
                 <div class="col-xl-3">
                     <div class="card">
-                        <img class="card-img-top" src="https://source.unsplash.com/user/erondu/150x100"
-                            alt="Card image cap">
+                        <div class="text-center">
+                            <img class="" width="200" height="200" src="{{ '/storage/images/' . $post->image }} "
+                                alt="post image">
+                        </div>
+
                         <div class="card-body">
                             <h5 class="card-title ">{{ $post->title }} </h5>
                             <p class="card-text">
@@ -67,7 +70,8 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form action="{{ route('posts.update', 0) }}" method="POST" id="updateForm">
+                    <form action="{{ route('posts.update', 0) }}" method="POST" id="updateForm"
+                        enctype="multipart/form-data">
                         @csrf
                         @method('put')
                         <label for="title">Title</label>
@@ -83,6 +87,8 @@
                         @error('content')
                             <div class="text-danger">{{ $message }}</div>
                         @enderror
+                        <label for="image">Image</label>
+                        <input class="form-control" type="file" name="image" id="image">
                     </form>
 
                 </div>
@@ -105,7 +111,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form action="{{ route('posts.store') }}" method="POST" id="addForm">
+                    <form action="{{ route('posts.store') }}" method="POST" id="addForm" enctype="multipart/form-data">
                         @csrf
                         <label for="title">Title</label>
                         <input type="text" required class="form-control @error('title') is-invalid @enderror"
@@ -120,6 +126,8 @@
                         @error('content')
                             <div class="text-danger">{{ $message }}</div>
                         @enderror
+                        <label for="image">Image</label>
+                        <input class="form-control" type="file" name="image" id="image">
                     </form>
 
                 </div>
