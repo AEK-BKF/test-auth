@@ -18,18 +18,17 @@
                           </a>
                       </li>
                       <li class="nav-item">
+                          <a class="nav-link" href="{{ route('categories.index') }}">
+                              <i class="ni ni-planet text-orange"></i>
+                              <span class="nav-link-text">Categories</span>
+                          </a>
+                      </li>
+
+                      <li class="nav-item">
                           <a class="nav-link" href="{{ route('posts.index') }}">
                               <i class="ni ni-planet text-orange"></i>
                               <span class="nav-link-text">My Posts</span>
                           </a>
-                          <ul>
-                              <li class="nav-item">
-                                  <a class="nav-link" href="{{ route('posts.create') }}">
-                                      <i class="ni ni-planet text-orange"></i>
-                                      <span class="nav-link-text">Add Post</span>
-                                  </a>
-                              </li>
-                          </ul>
                       </li>
 
                       <li class="nav-item">

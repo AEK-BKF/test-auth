@@ -36,6 +36,11 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
+
+// Categories Routes 
+Route::resource('categories', 'CategoryController');
+Route::get('/categories/getData/{id}', 'CategoryController@getData')->name('categories.getData');
+
 // Posts Routes 
 Route::get('/posts/index', 'PostController@index')->name('posts.index');
 Route::get('/posts/show/{id}', 'PostController@show')->name('posts.show');

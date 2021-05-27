@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\Post;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -15,8 +16,9 @@ class PostController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {       
+    {    
         return view('post.index',[
+            'categories' => Category::all(),
             'posts' => auth()->user()->posts
         ]);
     }
@@ -28,7 +30,7 @@ class PostController extends Controller
      */
     public function create()
     {
-        return view('post.create');
+      
     }
 
     /**
@@ -38,21 +40,26 @@ class PostController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {        
+    {               
         $request->validate([
             'title' => ['string', 'min:3'],
             'content' => ['string', 'min:10']
         ]);
-        $request->image->store('images', 'public');
+       
         //$path = Storage::put('images', $request->file('image'));
         //dd($path);        
         
-        auth()->user()->posts()->create([
+        $post = auth()->user()->posts()->create([
             'title' => $request->title,
             'content' => $request->content,   
-            'image' =>   $request->image->hashName()             
+            'category_id' => $request->category_id,   
         ]);
 
+        if($request->image)  
+        {          
+            $request->image->store('images', 'public');            
+            $post->update(['image' => $request->image->hashName()]);
+        }
         return redirect('/posts/index');
     }
 

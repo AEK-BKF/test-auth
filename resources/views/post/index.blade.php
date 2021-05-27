@@ -19,12 +19,17 @@
                 <div class="col-xl-3">
                     <div class="card">
                         <div class="text-center">
-                            <img class="" width="200" height="200" src="{{ '/storage/images/' . $post->image }} "
+                            <img class="" width="200" height="200"
+                                src="{{ $post->image ? '/storage/images/' . $post->image : asset('images/default.png') }} "
                                 alt="post image">
                         </div>
 
                         <div class="card-body">
-                            <h5 class="card-title ">{{ $post->title }} </h5>
+                            <h5 class="card-title ">
+                                {{ $post->title }}
+                                <span
+                                    class="badge badge-primary">{{ $post->category ? $post->category->name : 'NA' }}</span>
+                            </h5>
                             <p class="card-text">
                                 {{ Str::limit($post->content, 20, '...') }}
                             </p>
@@ -113,6 +118,12 @@
                 <div class="modal-body">
                     <form action="{{ route('posts.store') }}" method="POST" id="addForm" enctype="multipart/form-data">
                         @csrf
+                        <label for="category_id">Title</label>
+                        <select name="category_id" id="category_id" class="form-control">
+                            @foreach ($categories as $categ)
+                                <option value="{{ $categ->id }}">{{ $categ->name }}</option>
+                            @endforeach
+                        </select>
                         <label for="title">Title</label>
                         <input type="text" required class="form-control @error('title') is-invalid @enderror"
                             value="{{ old('title') }}" name="title" id="title">
