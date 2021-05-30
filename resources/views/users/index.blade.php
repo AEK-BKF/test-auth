@@ -4,65 +4,73 @@
     <div class="d-flex justify-content-between mb-3">
         <div class="justify-content-start">
             <span>
-                <h1>My Posts</h1>
+                <h1>My Users</h1>
             </span>
         </div>
         <div class="justify-content-end">
-            <button class="btn btn-primary" data-toggle="modal" data-target="#addPostModal">Add new
-                Post</button>
+            <button class="btn btn-primary" data-toggle="modal" data-target="#addUserModal">Add new
+                User</button>
         </div>
     </div>
 
     <div class="row">
-        <div class="card-deck">
-            @forelse($posts as $post)
-                <div class="col-xl-3">
-                    <div class="card">
-                        <div class="text-center">
-                            <img class="" width="200" height="200"
-                                src="{{ $post->image ? '/storage/images/' . $post->image : asset('images/default.png') }} "
-                                alt="post image">
-                        </div>
+        @forelse($users as $user)
+            <div class="col-xl-3">
+                <div class="text-center">
+                    <img class="" width="200" height="200"
+                        src="{{ $user->image ? '/storage/images/' . $user->image : asset('images/default.png') }} "
+                        alt="post image">
+                </div>
 
-                        <div class="card-body">
-                            <h5 class="card-title ">
-                                {{ $post->title }}
-                                <span
-                                    class="badge badge-primary">{{ $post->category ? $post->category->name : 'NA' }}</span>
-                            </h5>
-                            <p class="card-text">
-                                {{ $post->content }}
-                            </p>
-                            <p class="card-text">
-                            <div class="d-flex justify-content-between">
-                                <div class="justify-content-start">
-                                    <small lass="text-muted">
-                                        Joined {{ $post->created_at->ago() }}
-                                    </small>
-                                </div>
-                                <div class="justify-content-end">
-                                    <a class="mr-2" href="#" onclick="fillData('{{ $post->id }}')" data-toggle="modal"
-                                        data-target="#editPostModal"><i class="fas fa-pen"></i></a>
-                                    <a class="mr-2" href="#" onclick="confirmDelete('{{ $post->id }}')"><i
-                                            class="text-danger fas fa-trash ml-1"></i></a>
-                                </div>
-                            </div>
-                            </p>
+                <div class="card-body">
+                    <h5 class="card-title ">
+                        {{ $user->name }}
+                        <span class="badge badge-primary">{{ $user->category ? $user->category->name : 'NA' }}</span>
+                    </h5>
+                    <p class="card-text">
+                        {{ $user->email }}
+                    </p>
+                    <p class="card-text">
+                    <div class="d-flex justify-content-between">
+                        <div class="justify-content-start">
+                            <small lass="text-muted">
+                                Joined {{ $user->created_at->ago() }}
+                            </small>
+                        </div>
+                        <div class="justify-content-end">
+                            @canImpersonate
+                            @canBeImpersonated($user)
+                            <button type="submit" class="btn btn-transparent" form="impersonateForm{{ $user->id }}">
+                                <i class="fas fa-eye"></i></button>
+                            @endCanBeImpersonated
+                            @endCanImpersonate
+                            <a class="mr-2" href="#" onclick="fillData('{{ $user->id }}')" data-toggle="modal"
+                                data-target="#editPostModal"><i class="fas fa-pen"></i></a>
+                            <a class="mr-2" href="#" onclick="confirmDelete('{{ $user->id }}')"><i
+                                    class="text-danger fas fa-trash ml-1"></i></a>
                         </div>
                     </div>
+                    </p>
                 </div>
-            @empty
-                <div>
-                    <h4>No posts</h4>
-                </div>
-            @endforelse
-        </div>
+            </div>
+
+            <form action="{{ route('users.impersonate', $user->id) }}" method="POST"
+                id="impersonateForm{{ $user->id }}">
+                @csrf
+            </form>
+        @empty
+            <div>
+                <h4>No users</h4>
+            </div>
+        @endforelse
     </div>
-    <form action="{{ route('posts.destroy') }}" method="POST" id="deleteForm">
+    </div>
+    <form action="{{ route('users.destroy', 0) }}" method="POST" id="deleteForm">
         @csrf
         <input type="hidden" name="id" id="deletedID">
         @method('delete')
     </form>
+
 
     <div class="modal fade" id="editPostModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
         aria-hidden="true">
@@ -75,7 +83,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form action="{{ route('posts.update', 0) }}" method="POST" id="updateForm"
+                    <form action="{{ route('users.update', 0) }}" method="POST" id="updateForm"
                         enctype="multipart/form-data">
                         @csrf
                         @method('put')
@@ -105,7 +113,7 @@
         </div>
     </div>
 
-    <div class="modal fade" id="addPostModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    <div class="modal fade" id="addUserModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
         aria-hidden="false">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -116,14 +124,8 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form action="{{ route('posts.store') }}" method="POST" id="addForm" enctype="multipart/form-data">
+                    <form action="{{ route('users.store') }}" method="POST" id="addForm" enctype="multipart/form-data">
                         @csrf
-                        <label for="category_id">Title</label>
-                        <select name="category_id" id="category_id" class="form-control">
-                            @foreach ($categories as $categ)
-                                <option value="{{ $categ->id }}">{{ $categ->name }}</option>
-                            @endforeach
-                        </select>
                         <label for="title">Title</label>
                         <input type="text" required class="form-control @error('title') is-invalid @enderror"
                             value="{{ old('title') }}" name="title" id="title">
@@ -131,12 +133,7 @@
                             <div class="text-danger">{{ $message }}</div>
                         @enderror
 
-                        <label for="content">Content</label>
-                        <textarea name="content" required class="form-control @error('content') is-invalid @enderror"
-                            id="content" rows="5">{{ old('content') }}</textarea>
-                        @error('content')
-                            <div class="text-danger">{{ $message }}</div>
-                        @enderror
+
                         <label for="image">Image</label>
                         <input class="form-control" type="file" name="image" id="image">
                     </form>

@@ -116,6 +116,12 @@
                              <span>Support</span>
                          </a>
                          <div class="dropdown-divider"></div>
+                         @impersonating
+                         <a href="#!" class="dropdown-item">
+                             <i class="fas fa-eye-slash"></i>
+                             <span onclick="leaveImpersonate()">Leave impersonation</span>
+                         </a>
+                         @endImpersonating
                          <a href="#!" class="dropdown-item">
                              <i class="ni ni-user-run"></i>
                              <span onclick="logout()">Logout</span>
@@ -129,9 +135,16 @@
  <form action="{{ route('logout') }}" method="POST" id="logout">
      @csrf
  </form>
+ <form action="{{ route('users.leaveimpersonate') }}" method="POST" id="leaveImpersonate">
+     @csrf
+ </form>
  <script>
      function logout() {
          document.getElementById('logout').submit();
+     }
+
+     function leaveImpersonate() {
+         document.getElementById('leaveImpersonate').submit();
      }
 
  </script>

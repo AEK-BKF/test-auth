@@ -7,11 +7,12 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Lab404\Impersonate\Models\Impersonate;
 
 class User extends Authenticatable
 {
     use Notifiable;
-
+    use Impersonate;
     /**
      * The attributes that are mass assignable.
      *
@@ -42,5 +43,16 @@ class User extends Authenticatable
     public function posts()
     {
         return $this->HasMany(Post::class);
+    }
+
+    public function canImpersonate()
+    {        
+        return $this->id == 1;
+    }
+
+    public function canBeImpersonated()
+    {
+        // For example
+       return $this->id != 1;
     }
 }

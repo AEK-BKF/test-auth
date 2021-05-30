@@ -17,6 +17,14 @@
                               <span class="nav-link-text">Dashboard !!</span>
                           </a>
                       </li>
+
+                      <li class="nav-item">
+                          <a class="nav-link" href="{{ route('users.index') }}">
+                              <i class="fas fa-users text-orange"></i>
+                              <span class="nav-link-text">Users</span>
+                          </a>
+                      </li>
+
                       <li class="nav-item">
                           <a class="nav-link" href="{{ route('categories.index') }}">
                               <i class="ni ni-planet text-orange"></i>

@@ -175,6 +175,9 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
 
+        // Theird Packages
+        Lab404\Impersonate\ImpersonateServiceProvider::class,
+
     ],
 
     /*

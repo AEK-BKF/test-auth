@@ -40,7 +40,8 @@ class PostController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {               
+    {         
+                 
         $request->validate([
             'title' => ['string', 'min:3'],
             'content' => ['string', 'min:10']
