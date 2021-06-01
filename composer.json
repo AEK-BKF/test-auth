@@ -12,7 +12,10 @@
         "fideloper/proxy": "^4.4",
         "lab404/laravel-impersonate": "^1.7",
         "laravel/framework": "^6.20.26",
-        "laravel/tinker": "^2.5"
+        "laravel/tinker": "^2.5",
+        "nwidart/laravel-modules": "^8.2",
+        "livewire/livewire": "^1.0.0"
+
     },
     "require-dev": {
         "facade/ignition": "^1.16.15",
@@ -34,7 +37,8 @@
     },
     "autoload": {
         "psr-4": {
-            "App\\": "app/"
+            "App\\": "app/",
+            "Modules\\": "Modules/"
         },
         "classmap": [
             "database/seeds",

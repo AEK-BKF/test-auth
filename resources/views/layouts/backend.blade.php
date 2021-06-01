@@ -20,7 +20,7 @@
     <link rel="stylesheet" href="{{ asset('Argon/assets/css/argon.css?v=1.2.0') }}" type="text/css">
     <!-- Theird Party CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.11/dist/sweetalert2.min.css">
-
+    @livewireStyles
 </head>
 
 <body>
@@ -106,7 +106,7 @@
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     @yield('script')
-
+    @livewireScripts
 </body>
 
 </html>

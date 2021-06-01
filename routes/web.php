@@ -41,12 +41,7 @@ Route::middleware(['web', 'auth'])->group(function () {
     Route::get('/categories/getData/{id}', 'CategoryController@getData')->name('categories.getData');
 
     // Posts Routes 
-    Route::get('/posts/index', 'PostController@index')->name('posts.index');
-    Route::get('/posts/show/{id}', 'PostController@show')->name('posts.show');
-    Route::get('/posts/create', 'PostController@create')->name('posts.create');
-    Route::post('/posts/store', 'PostController@store')->name('posts.store');
-    Route::delete('/posts/destroy', 'PostController@destroy')->name('posts.destroy');
-    Route::put('/posts/update/{id}', 'PostController@update')->name('posts.update');
+    
 
     // Users Route
     Route::post('/users/{id}/impersonate', 'UsersController@impersonate')->name('users.impersonate');
